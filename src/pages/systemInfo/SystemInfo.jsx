@@ -7,6 +7,7 @@ import AppVersionLabel from "./AppVersionLabel";
 import {useSimplePageStyles} from "../../styles/simplePageStyles";
 import * as securityApi from "../../api/securityApi";
 import {useSnackbar} from "../../utils/snackbar";
+import { Link } from '@material-ui/core';
 
 const SystemInfo = ({preview = false, appVersion, history}) => {
   const [users, setUsers] = useState([]);
@@ -23,6 +24,9 @@ const SystemInfo = ({preview = false, appVersion, history}) => {
         <CardContent>
           <Typography className={classes.pageTitle} variant="h3">Система HR Jedi</Typography>
           <AppVersionLabel appVersion={appVersion || "В разработке"} label="Версия" delimiter className={classes.systemLabel} preview={preview}/>
+		      <Link href="http://localhost:8888/app/">
+            <Typography variant="subtitle1" className={classes.pageText}>Панель администратора</Typography>
+          </Link>
           <Typography variant="h5" className={classes.pageSubTitle}>
             Пользователи
           </Typography>

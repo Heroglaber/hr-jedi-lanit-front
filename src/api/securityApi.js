@@ -15,7 +15,7 @@ export const setCurrentUserToken = (currentUserToken) => {
 };
 
 export const login = (login, password) =>
-  fetch(`http://localhost:8888/api/security/login`, {
+  fetch(`/hr-rest/security/login`, {
     method: "POST",
     headers: {
       ...getCommonJsonRequestProps().headers,
@@ -35,14 +35,6 @@ export const logout = () => new Promise((resolve) => {
   resolve();
 });
 
-/*export const logout = () =>
-  fetch(`${BASENAME}/logout`, {method: "POST", ...getCommonHttpRequestProps()})
-    .then(throwHttpErrors)
-    .then((response) => {
-      localStorage.removeItem("token");
-      return response;
-    });*/
-
 export const getCurrentUser = () => {
   const currentUserToken = localStorage.getItem("token");
   if (currentUserToken) {
@@ -53,7 +45,7 @@ export const getCurrentUser = () => {
 };
 
 export const getAllUsers = (history) =>
-  fetch(`http://localhost:8888/api/security/user`, {
+  fetch(`/hr-rest/security/user`, {
     method: "GET",
     ...getCommonJsonRequestProps(),
   })
