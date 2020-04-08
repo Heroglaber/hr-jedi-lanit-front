@@ -6,8 +6,8 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import {useLoginStyles} from "./loginStyles";
-import hrJediLogo from "../../hr-jedi.png";
-import lanitBpmLogo from "../../lanit-bpm-logo.png";
+import hrJediLogo from "../../images/hr-jedi.png";
+import lanitBpmLogo from "../../images/lanit-bpm-logo.png";
 import TextField from "@material-ui/core/TextField";
 
 export default ({

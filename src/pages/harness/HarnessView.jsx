@@ -19,12 +19,13 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import People from "@material-ui/icons/People";
+import PeopleIcon from "@material-ui/icons/People";
+import HowToRegIcon from '@material-ui/icons/HowToReg';
 import {useHarnessStyles} from "./harnessStyles";
 import DrawerLinkItem from "./DrawerLinkItem";
-import hrJediLogo from "../../hr-jedi.png";
+import hrJediLogo from "../../images/hr-jedi.png";
 import AuthWrapper from "../../security/AuthWrapper";
-import {ADMIN, ALL, OMNI} from "../../security/Authorities";
+import {ADMIN, ALL, HR, OMNI} from "../../security/Authorities";
 
 const AccountMenu = ({classes, currentUser, onLogoutClick, accountMenuAnchor, onAccountMenuClick, onAccountMenuClose}) => {
   return (
@@ -69,8 +70,7 @@ const Header = ({toolbarExpanded, onExpandToolbarClick, classes, ...otherProps})
   </AppBar>
 );
 
-const LeftToolbar =
-  ({classes, toolbarExpanded, onCollapseToolbarClick, onAccountMenuClose,}) => (
+const LeftToolbar = ({classes, toolbarExpanded, onCollapseToolbarClick, onAccountMenuClose,}) => (
     <Drawer
       variant="permanent"
       classes={{
@@ -85,8 +85,11 @@ const LeftToolbar =
       </div>
       <Divider/>
       <List>
-        <AuthWrapper authorities={[ALL]}>
-          <DrawerLinkItem title="Сотрудники" to="/employees" onClick={onAccountMenuClose} classes={classes}><People/></DrawerLinkItem>
+        <AuthWrapper authorities={ALL}>
+          <DrawerLinkItem title="Сотрудники" to="/employees" onClick={onAccountMenuClose} classes={classes}><PeopleIcon/></DrawerLinkItem>
+        </AuthWrapper>
+        <AuthWrapper authorities={[OMNI, HR]}>
+          <DrawerLinkItem title="Посещаемость" to="/attendances" onClick={onAccountMenuClose} classes={classes}><HowToRegIcon/></DrawerLinkItem>
         </AuthWrapper>
         <AuthWrapper authorities={[OMNI, ADMIN]}>
           <Divider/>

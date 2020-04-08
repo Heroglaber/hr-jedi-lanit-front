@@ -1,4 +1,22 @@
 import ServerValidationError from "./errors/ServerValidationError";
+import * as locale from "date-fns/locale";
+import classNames from "classnames";
+
+const getUserLanguage = () => {
+  if (window.navigator.languages) {
+    return window.navigator.languages[0];
+  } else {
+    return window.navigator.userLanguage || window.navigator.language;
+  }
+};
+
+const getUserDateDnsLocale = () => {
+  let localeName = getUserLanguage().replace("-", "");
+  let localeNameShort = getUserLanguage().replace(/[A-Z]*/, "");
+  return locale[localeName] || locale[localeNameShort] || locale.ru;
+};
+
+export const USER_LOCALE = getUserDateDnsLocale();
 
 const unescapeMessage = (text) => {
   let value = text;
@@ -47,3 +65,8 @@ export const getCommonJsonRequestProps = () => {
     headers,
   };
 };
+
+export const previewfy = (classes, className, preview) => classNames({[className]: className, [classes.preview]: preview});
+
+export const disablefy = (classes, className, preview, disabled) =>
+  classNames({[className]: className, [classes.preview]: preview, [classes.disabled]: disabled});

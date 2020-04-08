@@ -60,6 +60,9 @@ export const page = theme => ({
   pageSubTitle: {
     marginTop: theme.spacing(2),
     color: theme.palette.secondary.dark,
+    "&$preview": {
+      width: theme.spacing(24),
+    },
   },
   actionsGridContainer: {
     margin: "16px 0px 0px 6px",

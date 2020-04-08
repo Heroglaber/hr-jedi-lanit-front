@@ -1,7 +1,7 @@
 import {allCommonStyles} from "./commonStyles";
 import {makeStyles} from "@material-ui/core/styles";
 
-const simplePageStyles = theme => ({
+export const simplePageStyles = theme => ({
   ...allCommonStyles(theme),
   largeMessage: {
     marginTop: theme.spacing(2),
@@ -18,15 +18,15 @@ const simplePageStyles = theme => ({
     marginLeft: 16,
     marginTop: 10,
   },
+  label: {
+    color: "rgba(1, 1, 1, 1)",
+    fontSize: 15,
+    textAlign: "left",
+    marginLeft: 16,
+    marginTop: 10,
+  },
   gridContainer: {
     marginTop: 20,
-  },
-  pageSubTitle: {
-    marginTop: theme.spacing(2),
-    color: theme.palette.secondary.dark,
-    "&$preview": {
-      width: theme.spacing(24),
-    },
   },
   pageText: {
     marginTop: theme.spacing(2),
