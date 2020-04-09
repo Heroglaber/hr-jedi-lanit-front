@@ -1,7 +1,8 @@
-import {useSimplePageStyles} from "../styles/simplePageStyles";
+import {simplePageStyles} from "../styles/simplePageStyles";
+import {makeStyles} from "@material-ui/core/styles";
 
-export default theme => ({
-  ...useSimplePageStyles(),
+const errorStyles = theme => ({
+  ...simplePageStyles(theme),
   errorNavHome: {
     textDecoration: "none",
     alignSelf: "flex-start",
@@ -21,3 +22,5 @@ export default theme => ({
     backgroundColor: theme.palette.secondary.light,
   },
 });
+
+export const useErrorStyles = makeStyles(errorStyles, {name: "Error"});

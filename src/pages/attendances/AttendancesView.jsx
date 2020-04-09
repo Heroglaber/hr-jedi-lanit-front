@@ -41,7 +41,7 @@ const YearAttendanceInfo = ({monthsWithoutAttendanceInfo, currentYear, classes})
         За {currentYear} год отсутствует информация о посещаемости за следующие месяцы:
       </Typography>
       <Typography className={classes.label} component="span" display="block">
-        {monthsWithoutAttendanceInfo.map(month => <>• {month}<br/></>)}
+        {monthsWithoutAttendanceInfo.map(month => <div key={month}>• {month}<br/></div>)}
       </Typography>
     </>;
 };

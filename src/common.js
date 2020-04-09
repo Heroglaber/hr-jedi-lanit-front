@@ -47,9 +47,9 @@ export const throwHttpErrors = (response, history) => {
 
 export const getCommonHttpRequestProps = () => {
   const props = {credentials: "same-origin"};
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("hrjedi-token");
   if (token) {
-    props.headers = {Authorization: `Bearer ${localStorage.getItem("token")}`};
+    props.headers = {Authorization: `Bearer ${localStorage.getItem("hrjedi-token")}`};
   }
   return props;
 };

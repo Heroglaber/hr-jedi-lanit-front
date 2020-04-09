@@ -2,15 +2,15 @@ import jwtDecode from "jwt-decode";
 import {getCommonJsonRequestProps, throwHttpErrors} from "../common";
 
 export const extractUserInfoFromJwt = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("hrjedi-token");
   return token ? JSON.parse(jwtDecode(token).userInfo) : null;//todo проверить
 };
 
 export const setCurrentUserToken = (currentUserToken) => {
   if (currentUserToken) {
-    localStorage.setItem("token", currentUserToken); //todo проверить
+    localStorage.setItem("hrjedi-token", currentUserToken);
   } else {
-    localStorage.removeItem("token");
+    localStorage.removeItem("hrjedi-token");
   }
 };
 
@@ -36,7 +36,7 @@ export const logout = () => new Promise((resolve) => {
 });
 
 export const getCurrentUser = () => {
-  const currentUserToken = localStorage.getItem("token");
+  const currentUserToken = localStorage.getItem("hrjedi-token");
   if (currentUserToken) {
     const decodedJwt = jwtDecode(currentUserToken);
     return JSON.parse(decodedJwt.currentUser);
