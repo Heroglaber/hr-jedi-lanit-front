@@ -1,11 +1,6 @@
 import jwtDecode from "jwt-decode";
 import {getCommonJsonRequestProps, throwHttpErrors} from "../common";
 
-export const extractUserInfoFromJwt = () => {
-  const token = localStorage.getItem("hrjedi-token");
-  return token ? JSON.parse(jwtDecode(token).userInfo) : null;//todo проверить
-};
-
 export const setCurrentUserToken = (currentUserToken) => {
   if (currentUserToken) {
     localStorage.setItem("hrjedi-token", currentUserToken);
