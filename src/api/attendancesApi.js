@@ -1,10 +1,10 @@
 import {getCommonJsonRequestProps, throwHttpErrors} from "../common";
+import axios from "axios";
 
 export const getMonthsWithoutAttendanceInfo = (year, history) =>
-  fetch(`hr-rest/attendances/monthsWithoutInfo/${year}`, {
-    method: "GET",
+  axios.get(`hr-rest/attendances/monthsWithoutInfo/${year}`, {
     ...getCommonJsonRequestProps(),
   })
     .then(response => throwHttpErrors(response, history))
-    .then(response => response.json())
+    .then(response => response.data)
     .then(months => months || []);
