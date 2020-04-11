@@ -8,7 +8,7 @@ import {AppContext} from "../AppContext";
  */
 const AuthWrapper = ({authorities, children, dispatch, ...otherProps}) => {
   const [context] = useContext(AppContext);
-  const userAuthorities = context.currentUser.authorities.map(authObject => authObject.authority);
+  const userAuthorities = context.currentUser && context.currentUser.authorities ? context.currentUser.authorities.map(authObject => authObject.authority) : [];
   if (authorities.some(authority => userAuthorities.includes(authority))) {
     return <>{React.Children.map(children, child => React.cloneElement(child, {...otherProps}))}</>;
   }

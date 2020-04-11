@@ -21,6 +21,7 @@ import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import PeopleIcon from "@material-ui/icons/People";
 import HowToRegIcon from '@material-ui/icons/HowToReg';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import {useHarnessStyles} from "./harnessStyles";
 import DrawerLinkItem from "./DrawerLinkItem";
 import hrJediLogo from "../../images/hr-jedi.png";
@@ -85,6 +86,9 @@ const LeftToolbar = ({classes, toolbarExpanded, onCollapseToolbarClick, onAccoun
       </div>
       <Divider/>
       <List>
+        <AuthWrapper authorities={ALL}>
+          <DrawerLinkItem title="Список задач" to="/task-list" onClick={onAccountMenuClose} classes={classes}><AssignmentTurnedInIcon/></DrawerLinkItem>
+        </AuthWrapper>
         <AuthWrapper authorities={ALL}>
           <DrawerLinkItem title="Сотрудники" to="/employees" onClick={onAccountMenuClose} classes={classes}><PeopleIcon/></DrawerLinkItem>
         </AuthWrapper>

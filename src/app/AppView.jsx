@@ -10,6 +10,7 @@ import {useAppStyles} from "./appStyles";
 import AuthRoute from "../security/AuthRoute";
 import {ADMIN, ALL, OMNI, HR} from "../security/Authorities";
 import AccessDenied from "../errors/AccessDenied";
+import TaskList from "../pages/tasklist/TaskList";
 
 const App = () => {
   const classes = useAppStyles();
@@ -21,6 +22,7 @@ const App = () => {
         <AuthRoute path="/" component={Landing} authorities={ALL} exact/>
         <AuthRoute path="/attendances" component={Attendances} authorities={[HR, OMNI]} exact/>
         <AuthRoute path="/system" component={SystemInfo} authorities={[ADMIN, OMNI]} exact/>
+        <AuthRoute path="/task-list" component={TaskList} exact/>
         <AuthRoute path="/access-denied" component={AccessDenied} exact/>
         <AuthRoute path="/" component={NotFound} />
       </Switch>

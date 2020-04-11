@@ -6,8 +6,8 @@ import Harness from "../pages/harness/Harness";
 
 const AuthRoute = ({component: Component, authorities = [], ...otherProps}) => {
   const [context] = useContext(AppContext);
-  const currentUser = context.currentUser;
-  const userAuthorities = context.currentUser.authorities.map(authObject => authObject.authority);
+  const {currentUser} = context;
+  const userAuthorities = context.currentUser && context.currentUser.authorities ? context.currentUser.authorities.map(authObject => authObject.authority) : [];
   return (
     <Route
       {...otherProps}

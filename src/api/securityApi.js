@@ -34,6 +34,9 @@ export const getCurrentUser = () => {
   const currentUserToken = localStorage.getItem("hrjedi-token");
   if (currentUserToken) {
     const decodedJwt = jwtDecode(currentUserToken);
+    if (Date.now() >= decodedJwt.exp * 1000) {
+      return null;
+    }
     return JSON.parse(decodedJwt.currentUser);
   }
   return null;

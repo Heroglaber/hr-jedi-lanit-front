@@ -28,6 +28,7 @@ const handleLogin = (history, location, context, setContext, showError) =>(value
       })
       .catch(error => showError("Ошибка аутентификации: Неверное имя пользователя или пароль"));
   };
+
 const Login = props => {
   const [context, setContext] = useContext(AppContext);
   const {history, location} = props;

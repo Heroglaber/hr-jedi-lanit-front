@@ -11,7 +11,7 @@ const Attendances = ({history}) => {
   const currentYear = new Date().getFullYear();
   useEffect(() => {
     loadMonthsWithoutAttendanceInfo(currentYear, setMonthsWithoutAttendanceInfo, history, showError);
-  }, [setMonthsWithoutAttendanceInfo]);
+  }, [setMonthsWithoutAttendanceInfo, currentYear, history, showError]);
 
   return (
     <AttendancesView
