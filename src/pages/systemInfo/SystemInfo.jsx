@@ -27,6 +27,9 @@ const SystemInfo = ({preview = false, appVersion, history}) => {
           <Link href="http://localhost:8888/app/">
             <Typography variant="subtitle1" className={classes.pageText}>Панель администратора</Typography>
           </Link>
+          <Link href="http://localhost:8888/h2-console/">
+            <Typography variant="subtitle1" className={classes.pageText}>Консоль базы данных</Typography>
+          </Link>
           <Typography variant="h5" className={classes.pageSubTitle}>
             Пользователи
           </Typography>
