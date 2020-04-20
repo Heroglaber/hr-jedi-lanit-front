@@ -26,7 +26,7 @@ function loadTasks(currentUser, setTasks, history, showError) {
   processApi.getUserTaskList(currentUser.username || "", history)
     .then(tasks => {
       const updatedTasks = tasks.map(task => {
-          return processApi.getProcessIstanceVariables(task.processInstanceId)
+          return processApi.getProcessInstanceVariables(task.processInstanceId)
             .then(processVariables => {
               task.processBusinessKey = processVariables.businessKey.value;
               task.processName = processVariables.name.value;

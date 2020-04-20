@@ -26,7 +26,8 @@ import {useHarnessStyles} from "./harnessStyles";
 import DrawerLinkItem from "./DrawerLinkItem";
 import hrJediLogo from "../../images/hr-jedi.png";
 import AuthWrapper from "../../security/AuthWrapper";
-import {ADMIN, ALL, HR, OMNI} from "../../security/Authorities";
+import DirectionsBoat from "@material-ui/icons/DirectionsBoat"
+import {ADMIN, ALL, HR, OMNI, USER} from "../../security/Authorities";
 
 const AccountMenu = ({classes, currentUser, onLogoutClick, accountMenuAnchor, onAccountMenuClick, onAccountMenuClose}) => {
   return (
@@ -66,6 +67,15 @@ const Header = ({toolbarExpanded, onExpandToolbarClick, classes, ...otherProps})
           HR Jedi
         </Typography>
       </NavLink>
+      <AuthWrapper authorities={[USER]}>
+        <NavLink to="/vacation">
+          <Tooltip title="Оформить заявку на отпуск">
+            <IconButton>
+              <DirectionsBoat/>
+            </IconButton>
+          </Tooltip>
+        </NavLink>
+      </AuthWrapper>
       <AccountMenu {...otherProps} classes={classes}/>
     </Toolbar>
   </AppBar>
