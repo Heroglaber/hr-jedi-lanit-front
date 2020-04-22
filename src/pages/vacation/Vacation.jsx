@@ -96,10 +96,6 @@ const VacationContent = (props) => {
       .catch(handleError(showError, 'Не удалось создать заявку'));
   };
 
-  const onCorrection = () => {
-    sendMessage(vacation.processId, "Revoke", history).then(reloadVacation);
-  };
-
   useEffect(reloadVacation, [currentUser, history, showError]);
 
   if (loading) {
@@ -107,7 +103,7 @@ const VacationContent = (props) => {
   }
 
   if (vacation.status && vacation.status !== 'new' && vacation.status !== 'correction') {
-    return <VacationReadonlyView vacation={vacation} onCorrection={onCorrection} onCancel={onCancel} history={history}/>;
+    return <VacationReadonlyView vacation={vacation} onCancel={onCancel} history={history}/>;
   } else {
     return <VacationView vacation={vacation} history={history} onSubmit={onSubmit} onCancel={onCancel}/>;
   }

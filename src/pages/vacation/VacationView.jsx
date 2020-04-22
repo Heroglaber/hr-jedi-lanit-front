@@ -6,17 +6,21 @@ import {CircularProgress, Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {handleError} from "./common";
 
+const mapVariables = (response) => {
+  const result = {};
+  for(const name in response) {
+    if(response.hasOwnProperty(name) && response[name] && response[name].value) {
+      result.name = response[name].value;
+    }
+  }
+  return result;
+};
+
 const loadVacationData = async (processId) => {
   if (!processId) {
     return null;
   }
-  return await getProcessInstanceVariables(processId)
-    .then(response => ({
-      startDate: response.startDate.value || null,
-      endDate: response.endDate.value || null,
-      substitute: response.substitute.value || '',
-      phone: response.phone.value || '',
-    }));
+  return await getProcessInstanceVariables(processId).then(mapVariables);
 };
 
 export const VacationView = ({vacation, onSubmit, onCancel}) => {
@@ -41,7 +45,7 @@ export const VacationView = ({vacation, onSubmit, onCancel}) => {
     </Grid>)
 };
 
-export const VacationReadonlyView = ({vacation, onCancel, onCorrection}) => {
+export const VacationReadonlyView = ({vacation, onCancel}) => {
   const {showError} = useSnackbar();
   const [vacationData, setVacationData] = useState(null);
 
@@ -60,7 +64,7 @@ export const VacationReadonlyView = ({vacation, onCancel, onCorrection}) => {
         <Typography variant='h5'>Заявку {vacation.businessKey} согласовывает {approveBy}</Typography>
       </Grid>
       <Grid item>
-        <VacationForm vacation={vacationData} onCorrection={onCorrection} onCancel={onCancel} readonly={true}/>
+        <VacationForm vacation={vacationData} onCancel={onCancel} readonly={true}/>
       </Grid>
     </Grid>)
 };

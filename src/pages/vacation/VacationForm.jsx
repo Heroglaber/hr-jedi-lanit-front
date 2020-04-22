@@ -4,7 +4,7 @@ import {Button, Grid, TextField} from "@material-ui/core";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import React, {useState} from "react";
 
-const VacationForm = ({vacation, readonly, onSubmit, onCancel, onCorrection}) => {
+const VacationForm = ({vacation, readonly, onSubmit, onCancel}) => {
   const [startDate, setStartDate] = useState(vacation.startDate || startOfDay(new Date()));
   const [endDate, setEndDate] = useState(vacation.endDate || startOfDay(new Date()));
   const [substitute, setSubstitute] = useState(vacation.substitute || '');
@@ -12,7 +12,6 @@ const VacationForm = ({vacation, readonly, onSubmit, onCancel, onCorrection}) =>
 
   const onSubmitButtonClicked = () => onSubmit(startDate, endDate, substitute, phone);
   const onCancelButtonClicked = () => onCancel();
-  const onCorrectionButtonClicked = () => onCorrection();
   const onSubstituteChanged = (event) => setSubstitute(event.target.value);
   const onPhoneChanged = (event) => setPhone(event.target.value);
 
@@ -55,11 +54,7 @@ const VacationForm = ({vacation, readonly, onSubmit, onCancel, onCorrection}) =>
         <TextField id='vacation-phone' fullWidth required variant='outlined' value={phone} onChange={onPhoneChanged} disabled={readonly}
                    label='Номер телефона'/>
       </Grid>
-      {readonly ? (
-        <Grid item xs={12}>
-          <Button fullWidth onClick={onCorrectionButtonClicked} variant="contained" color="primary" size="large">Редактировать</Button>
-        </Grid>
-      ) : (
+      {!readonly && (
         <React.Fragment>
           <Grid item xs={6}>
             <Button fullWidth onClick={onSubmitButtonClicked} variant="contained" color="primary" size="large">Отправить на согласование</Button>
