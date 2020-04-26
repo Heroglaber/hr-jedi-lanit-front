@@ -4,7 +4,6 @@ import HarnessView from "./HarnessView";
 import {withRouter} from "react-router";
 
 const Harness = (props) => {
-
   const {children, history} = props;
   const onLogoutClick = () => {
     securityApi.logout()

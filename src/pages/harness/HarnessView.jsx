@@ -20,6 +20,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import Person from "@material-ui/icons/Person";
 import PeopleIcon from "@material-ui/icons/People";
 import HowToRegIcon from '@material-ui/icons/HowToReg';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
@@ -39,7 +40,7 @@ const AccountMenu = ({classes, currentUser, onLogoutClick, accountMenuAnchor, on
         </IconButton>
       </Tooltip>
       <Menu
-        MenuListProps={{subheader: <ListSubheader>{currentUser.username}</ListSubheader>}}
+        MenuListProps={{subheader: <ListSubheader>{currentUser.fullName}</ListSubheader>}}
         anchorEl={accountMenuAnchor}
         getContentAnchorEl={null}
         anchorOrigin={{vertical: "bottom", horizontal: "right"}}
@@ -47,6 +48,13 @@ const AccountMenu = ({classes, currentUser, onLogoutClick, accountMenuAnchor, on
         open={Boolean(accountMenuAnchor)}
         onClose={onAccountMenuClose}
       >
+        <NavLink to="/profile" className={classes.menuLink}>
+          <MenuItem onClick={onAccountMenuClose}>
+            <ListItemIcon><Person/></ListItemIcon>
+            <ListItemText primary="Профиль"/>
+          </MenuItem>
+        </NavLink>
+        <Divider/>
         <MenuItem onClick={onLogoutClick}>
           <ListItemIcon><ExitToAppIcon/></ListItemIcon>
           <ListItemText primary="Выйти"/>

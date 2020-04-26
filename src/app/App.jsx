@@ -8,7 +8,7 @@ import {useSnackbar} from "../utils/snackbar";
 import {AppContext} from "../AppContext";
 import Login from "../pages/login/Login";
 
-const logout = (currentUserName, context, setContext, snackbar) => () => {
+const logout = (currentUserName, context, snackbar) => () => {
   securityApi.logout()
     .then(() => snackbar.showSuccess(`Вас слишком долго не было, ${currentUserName}!`));
 

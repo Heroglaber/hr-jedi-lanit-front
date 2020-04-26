@@ -13,6 +13,7 @@ import AccessDenied from "../errors/AccessDenied";
 import TaskList from "../pages/tasklist/TaskList";
 import Vacation from "../pages/vacation/Vacation";
 import Employees from "../pages/employees/Employees";
+import Profile from "../pages/profile/Profile";
 
 const App = () => {
   const classes = useAppStyles();
@@ -26,6 +27,7 @@ const App = () => {
         <AuthRoute path="/system" component={SystemInfo} authorities={[ADMIN, OMNI]} exact/>
         <AuthRoute path="/task-list" component={TaskList} exact/>
         <AuthRoute path="/vacation" component={Vacation} authorities={ALL} exact/>
+        <AuthRoute path="/profile" component={Profile} authorities={ALL} exact/>
         <AuthRoute path="/employees" component={Employees} exact/>
         <AuthRoute path="/access-denied" component={AccessDenied} exact/>
         <AuthRoute path="/" component={NotFound} />

@@ -5,7 +5,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import AppVersionLabel from "./AppVersionLabel";
 import {useSimplePageStyles} from "../../styles/simplePageStyles";
-import * as securityApi from "../../api/securityApi";
+import * as employeeApi from "../../api/employeeApi";
 import {useSnackbar} from "../../utils/snackbar";
 import {Link} from '@material-ui/core';
 
@@ -41,9 +41,9 @@ const SystemInfo = ({preview = false, appVersion, history}) => {
 };
 
 const loadAllUsers = (setUsers, history, showError) => {
-  securityApi.getAllUsers(history)
+  employeeApi.getAllUsers(history)
     .then(users => setUsers(users))
-    .catch(error => showError("Ошибка при попытке загрузки списка пользователей"));
+    .catch(() => showError("Ошибка при попытке загрузки списка пользователей"));
 };
 
 export default SystemInfo;

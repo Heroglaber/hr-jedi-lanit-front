@@ -42,12 +42,3 @@ export const getCurrentUser = () => {
   }
   return null;
 };
-
-export const getAllUsers = (history) =>
-  fetch(`/hr-rest/security/user`, {
-    method: "GET",
-    ...getCommonJsonRequestProps(),
-  })
-    .then(response => throwHttpErrors(response, history))
-    .then(response => response.json())
-    .then(users => users || []);
