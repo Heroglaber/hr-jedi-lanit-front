@@ -28,8 +28,8 @@ function loadTasks(currentUser, setTasks, history, showError) {
       const updatedTasks = tasks.map(task => {
           return processApi.getProcessInstanceVariables(task.processInstanceId)
             .then(processVariables => {
-              task.processBusinessKey = processVariables.businessKey.value;
-              task.processName = processVariables.name.value;
+              task.processBusinessKey = processVariables.processBusinessKey ? processVariables.processBusinessKey.value : '';
+              task.processName = processVariables.processName ? processVariables.processName.value : '';
               return task;
             })
         });

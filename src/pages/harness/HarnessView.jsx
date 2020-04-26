@@ -11,6 +11,7 @@ import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import Button from '@material-ui/core/Button';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -27,7 +28,7 @@ import DrawerLinkItem from "./DrawerLinkItem";
 import hrJediLogo from "../../images/hr-jedi.png";
 import AuthWrapper from "../../security/AuthWrapper";
 import DirectionsBoat from "@material-ui/icons/DirectionsBoat"
-import {ADMIN, ALL, HR, OMNI, USER} from "../../security/Authorities";
+import {ADMIN, ALL, HR, OMNI} from "../../security/Authorities";
 
 const AccountMenu = ({classes, currentUser, onLogoutClick, accountMenuAnchor, onAccountMenuClick, onAccountMenuClose}) => {
   return (
@@ -67,14 +68,14 @@ const Header = ({toolbarExpanded, onExpandToolbarClick, classes, ...otherProps})
           HR Jedi
         </Typography>
       </NavLink>
-      <AuthWrapper authorities={[USER]}>
-        <NavLink to="/vacation">
-          <Tooltip title="Оформить заявку на отпуск">
-            <IconButton>
-              <DirectionsBoat/>
-            </IconButton>
-          </Tooltip>
-        </NavLink>
+      <AuthWrapper authorities={ALL}>
+        <Tooltip title="Оформить заявку на отпуск">
+          <Button variant="outlined" href="/vacation" startIcon={<DirectionsBoat/>}>
+            <Typography>
+              Оформить заявку на отпуск
+            </Typography>
+          </Button>
+        </Tooltip>
       </AuthWrapper>
       <AccountMenu {...otherProps} classes={classes}/>
     </Toolbar>
@@ -82,37 +83,35 @@ const Header = ({toolbarExpanded, onExpandToolbarClick, classes, ...otherProps})
 );
 
 const LeftToolbar = ({classes, toolbarExpanded, onCollapseToolbarClick, onAccountMenuClose,}) => (
-    <Drawer
-      variant="permanent"
-      classes={{
-        paper: classNames(classes.drawerPaper, !toolbarExpanded && classes.drawerPaperClose),
-      }}
-      open={toolbarExpanded}
-    >
-      <div className={classes.collapseToolbarItem}>
-        <IconButton onClick={onCollapseToolbarClick}>
-          <ChevronLeftIcon/>
-        </IconButton>
-      </div>
-      <Divider/>
-      <List>
-        <AuthWrapper authorities={ALL}>
-          <DrawerLinkItem title="Список задач" to="/task-list" onClick={onAccountMenuClose} classes={classes}><AssignmentTurnedInIcon/></DrawerLinkItem>
-        </AuthWrapper>
-        <AuthWrapper authorities={ALL}>
-          <DrawerLinkItem title="Сотрудники" to="/employees" onClick={onAccountMenuClose} classes={classes}><PeopleIcon/></DrawerLinkItem>
-        </AuthWrapper>
-        <AuthWrapper authorities={[OMNI, HR]}>
-          <DrawerLinkItem title="Посещаемость" to="/attendances" onClick={onAccountMenuClose} classes={classes}><HowToRegIcon/></DrawerLinkItem>
-        </AuthWrapper>
-        <AuthWrapper authorities={[OMNI, ADMIN]}>
-          <Divider/>
-          <DrawerLinkItem title="Система" to="/system" onClick={onAccountMenuClose} classes={classes}><AccountBalanceIcon/></DrawerLinkItem>
-          <Divider/>
-        </AuthWrapper>
-      </List>
-    </Drawer>
-  );
+  <Drawer
+    variant="permanent"
+    classes={{
+      paper: classNames(classes.drawerPaper, !toolbarExpanded && classes.drawerPaperClose),
+    }}
+    open={toolbarExpanded}
+  >
+    <div className={classes.collapseToolbarItem}>
+      <IconButton onClick={onCollapseToolbarClick}>
+        <ChevronLeftIcon/>
+      </IconButton>
+    </div>
+    <Divider/>
+    <List>
+      <AuthWrapper authorities={ALL}>
+        <DrawerLinkItem title="Список задач" to="/task-list" onClick={onAccountMenuClose} classes={classes}><AssignmentTurnedInIcon/></DrawerLinkItem>
+      </AuthWrapper>
+      <DrawerLinkItem title="Сотрудники" to="/employees" onClick={onAccountMenuClose} classes={classes}><PeopleIcon/></DrawerLinkItem>
+      <AuthWrapper authorities={[OMNI, HR]}>
+        <DrawerLinkItem title="Посещаемость" to="/attendances" onClick={onAccountMenuClose} classes={classes}><HowToRegIcon/></DrawerLinkItem>
+      </AuthWrapper>
+      <AuthWrapper authorities={[OMNI, ADMIN]}>
+        <Divider/>
+        <DrawerLinkItem title="Система" to="/system" onClick={onAccountMenuClose} classes={classes}><AccountBalanceIcon/></DrawerLinkItem>
+        <Divider/>
+      </AuthWrapper>
+    </List>
+  </Drawer>
+);
 
 const HarnessView = (props) => {
   const classes = useHarnessStyles();

@@ -27,7 +27,7 @@ const App = (props) => {
           <AppView {...props}/>
       </IdleTimer>
       :
-      <Login/>
+      <Login {...props}/>
   );
 };
 

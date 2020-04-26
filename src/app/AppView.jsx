@@ -8,10 +8,11 @@ import Attendances from "../pages/attendances/Attendances";
 import Landing from "../pages/landing/Landing";
 import {useAppStyles} from "./appStyles";
 import AuthRoute from "../security/AuthRoute";
-import {ADMIN, ALL, OMNI, HR, USER} from "../security/Authorities";
+import {ADMIN, ALL, OMNI, HR} from "../security/Authorities";
 import AccessDenied from "../errors/AccessDenied";
 import TaskList from "../pages/tasklist/TaskList";
 import Vacation from "../pages/vacation/Vacation";
+import Employees from "../pages/employees/Employees";
 
 const App = () => {
   const classes = useAppStyles();
@@ -24,7 +25,8 @@ const App = () => {
         <AuthRoute path="/attendances" component={Attendances} authorities={[HR, OMNI]} exact/>
         <AuthRoute path="/system" component={SystemInfo} authorities={[ADMIN, OMNI]} exact/>
         <AuthRoute path="/task-list" component={TaskList} exact/>
-        <AuthRoute path="/vacation" component={Vacation} authorities={[USER]} exact/>
+        <AuthRoute path="/vacation" component={Vacation} authorities={ALL} exact/>
+        <AuthRoute path="/employees" component={Employees} exact/>
         <AuthRoute path="/access-denied" component={AccessDenied} exact/>
         <AuthRoute path="/" component={NotFound} />
       </Switch>

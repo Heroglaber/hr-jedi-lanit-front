@@ -20,13 +20,13 @@ const handleLogin = (history, location, context, setContext, showError) =>(value
         if(!currentUser){
           return currentUser;
         }
-        if (location.state && location.state.from) {
+        if (location && location.state && location.state.from) {
           return history.push(location.state.from);
         } else{
           return history.push("/");
         }
       })
-      .catch(error => showError("Ошибка аутентификации: Неверное имя пользователя или пароль"));
+      .catch(error => showError("Ошибка аутентификации: Неверное имя пользователя или пароль. " + error));
   };
 
 const Login = props => {

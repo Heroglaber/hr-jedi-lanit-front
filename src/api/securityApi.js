@@ -35,6 +35,7 @@ export const getCurrentUser = () => {
   if (currentUserToken) {
     const decodedJwt = jwtDecode(currentUserToken);
     if (Date.now() >= decodedJwt.exp * 1000) {
+      setCurrentUserToken(null);
       return null;
     }
     return JSON.parse(decodedJwt.currentUser);
