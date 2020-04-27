@@ -11,7 +11,6 @@ import Login from "../pages/login/Login";
 const logout = (currentUserName, context, snackbar) => () => {
   securityApi.logout()
     .then(() => snackbar.showSuccess(`Вас слишком долго не было, ${currentUserName}!`));
-
 };
 
 const App = (props) => {

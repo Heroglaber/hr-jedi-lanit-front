@@ -1,13 +1,15 @@
 import React, {useContext, useEffect, useState} from "react";
 import ProfileView from "./ProfileView";
 import {AppContext} from "../../AppContext";
-import {findUser, updateEmail} from "../../api/employeeApi";
+import {findUser, loadAvatar, updateEmail} from "../../api/employeeApi";
+import {useSnackbar} from "../../utils/snackbar";
 
-const onSave = (history, location, currentUser, setCurrentUser) => (values) => {
+const onSave = (history, location, currentUser, setCurrentUser, showError) => (values) => {
   return updateEmail(history, values.email).then(() => {
-    currentUser.email = values.email;
-    setCurrentUser(currentUser);
-  });
+      currentUser.email = values.email;
+      setCurrentUser(currentUser);
+    })
+    .catch(() => showError("Произошла ошибка обновлении почтового ящика"));
 };
 
 const Profile = (props) => {
@@ -15,16 +17,25 @@ const Profile = (props) => {
   const {history, location} = props;
   const tokenUser = context.currentUser;
   const [currentUser, setCurrentUser] = useState();
-  const save = onSave(history, location, currentUser, setCurrentUser);
+  const [avatar, setAvatar] = useState();
+  const {showError} = useSnackbar();
+  const save = onSave(history, location, currentUser, setCurrentUser, showError);
 
   useEffect(() => {
-    findUser(history, tokenUser.username).then(user => setCurrentUser(user));
+    findUser(history, tokenUser.username).then(user => setCurrentUser(user))
+      .catch(() => showError("Произошла ошибка при загрузке информации о пользователе"));
   }, [tokenUser, history]);
+
+  useEffect(() => {
+    loadAvatar(history).then(avatar => setAvatar(avatar))
+      .catch(() => showError("Произошла ошибка при скачивании аватара"));
+  }, [history]);
 
   return (
     <ProfileView
       currentUser={currentUser}
       onSave={save}
+      avatar={avatar}
     />
   );
 };

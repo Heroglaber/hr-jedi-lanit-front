@@ -17,7 +17,7 @@ const validate = formikValidate({
   email: [required()],
 });
 
-const ProfileView = ({currentUser, onSave}) => {
+const ProfileView = ({currentUser, onSave, avatar}) => {
   const preview = !currentUser;
   const classes = useProfileStyles();
   const {values, errors, handleSubmit, handleChange, setErrors} = useFormik({
@@ -41,7 +41,7 @@ const ProfileView = ({currentUser, onSave}) => {
           <CardContent>
             <Grid container justify="center">
               <Grid item>
-                <img alt="complex" src={hrJediLogo}/>
+                <img alt="complex" className={classes.imageInput} src={avatar ? avatar : hrJediLogo}/>
               </Grid>
               <Grid item sm>
                 <Typography className={classes.pageTitle} variant="h3">
