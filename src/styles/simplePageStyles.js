@@ -68,6 +68,10 @@ export const simplePageStyles = theme => ({
       opacity: 0.3,
     },
   },
+  bottomButton: {
+    marginLeft: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  }
 });
 
 export const useSimplePageStyles = makeStyles(simplePageStyles, {name: "SimplePage"});

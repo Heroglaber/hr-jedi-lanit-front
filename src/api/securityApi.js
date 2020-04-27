@@ -42,3 +42,12 @@ export const getCurrentUser = () => {
   }
   return null;
 };
+
+export const generateSecuredPassword = (history) =>
+  fetch(`/hr-rest/security/generate-pass`, {
+    method: "GET",
+    ...getCommonJsonRequestProps(),
+  })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.text());
+

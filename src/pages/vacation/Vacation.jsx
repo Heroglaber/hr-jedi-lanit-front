@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Card, CardContent, CircularProgress, Container, Grid} from "@material-ui/core";
-import {claimTask, completeTask, findProcessInstance, getProcessInstanceVariables, getUserTask, sendMessage, startProcess} from "../../api/processApi"
+import {claimTask, completeTask, findProcessInstance, getProcessInstanceVariables, getUserTask, startProcess} from "../../api/processApi"
 import {AppContext} from "../../AppContext";
 import {useSnackbar} from "../../utils/snackbar";
 import {VacationReadonlyView, VacationView} from "./VacationView";
