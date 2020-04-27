@@ -15,7 +15,7 @@ import {useTaskListStyles} from "./taskListStyles";
 import {previewfy} from "../../common";
 import * as sorting from "../../utils/sorting";
 
-const TaskList = (props) => {
+const TaskListView = (props) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [currentOrder, setCurrentOrder] = useState("desc");
@@ -102,4 +102,4 @@ const TaskList = (props) => {
   );
 };
 
-export default TaskList;
+export default TaskListView;

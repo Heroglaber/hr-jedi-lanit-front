@@ -1,3 +1,4 @@
+import axios from "axios";
 import {getCommonJsonRequestProps, throwHttpErrors} from "../common";
 
 export const getAllUsers = (history) =>
@@ -26,3 +27,11 @@ export const findUser = (history, login) =>
   })
     .then(response => throwHttpErrors(response, history))
     .then(response => response.json());
+
+
+export const getEmployeeFullNameByLogin = (employeeLogin, history) =>
+  axios.get(`/hr-rest/employees/${employeeLogin}/fullName`, {      //todo отразить в хинтах ревьюеров
+      ...getCommonJsonRequestProps(),
+    })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.data);

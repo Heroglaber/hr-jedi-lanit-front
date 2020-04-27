@@ -22,6 +22,7 @@ export const getUserTask = (processKey, taskId, executionId) => {
     .then(response => response.json());
 };
 
+
 export const completeTask = (taskId, variables, history) => {
   return fetch(`/rest/task/${taskId}/complete`, {
     method: 'POST',
@@ -50,12 +51,12 @@ export const startProcess = (processId, history, variables) => {
     .then(response => response.json());
 };
 
-export const getProcessInstanceVariables = (processInstanceId) =>
+export const getProcessInstanceVariables = (processInstanceId, history) =>
   fetch(`/rest/process-instance/${processInstanceId}/variables`, {
     method: "GET",
     ...getCommonJsonRequestProps()
   })
-    .then(response => throwHttpErrors(response))
+    .then(response => throwHttpErrors(response, history))
     .then(response => response.json());
 
 export const findProcessInstance = (searchParams, history) => {
@@ -78,7 +79,63 @@ export const sendMessage = (processInstanceId, messageName, history) => {
       messageName: messageName,
       processInstanceId: processInstanceId
     }),
-  ...getCommonJsonRequestProps()
+    ...getCommonJsonRequestProps()
   })
     .then(response => throwHttpErrors(response, history));
+};
+
+
+
+
+
+
+
+export const getTaskWithProcessInfoAndVariablesById = (taskId, history) =>
+  getTaskById(taskId, history)
+    .then((task) => {
+      const processId = task.processInstanceId;
+      const processInfoPromise = getHistoryProcessInstanceById(processId, history);
+      const taskVariablesPromise = getTaskLocalVariablesById(taskId, history)
+        .then(variables => {
+          return variables;
+        });
+      return Promise.all([processInfoPromise, taskVariablesPromise])
+        .then((results) => {
+          const [process, variables] = results;
+          const [values, metas] = unwrapValues(variables);
+          return {
+            ...task,
+            process,
+            variables: values,
+            variableMetas: metas,
+          };
+        });
+    });
+
+export const getTaskById = (taskId, history) =>
+  fetch(`/rest/task/${taskId}`, {method: "GET", ...getCommonJsonRequestProps()})
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.json());
+
+
+export const getHistoryProcessInstanceById = (processId, history) =>
+  fetch(`/rest/history/process-instance/${processId}`, {method: "GET", ...getCommonJsonRequestProps()})
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.json());
+
+const getTaskLocalVariablesById = (id, history) =>
+  fetch(`/rest/task/${id}/localVariables`, {method: "GET", ...getCommonJsonRequestProps()})
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.json());
+
+const unwrapValues = (variables) => {
+  const values = {};
+  const metas = {};
+  Object.keys(variables).forEach((name) => {
+    const variable = variables[name];
+    const {value, ...meta} = variable;
+    values[name] = value;
+    metas[name] = meta;
+  });
+  return [values, metas];
 };

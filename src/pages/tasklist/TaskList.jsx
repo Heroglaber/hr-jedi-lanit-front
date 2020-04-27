@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from "react";
 import * as processApi from "../../api/processApi";
-import ViewTaskList from "./ViewTaskList";
+import TaskListView from "./TaskListView";
 import {useSnackbar} from "../../utils/snackbar";
 import {AppContext} from "../../AppContext";
 
@@ -12,28 +12,34 @@ const TaskList = (props) => {
   const {showError} = useSnackbar();
 
   useEffect(() => {
-    loadTasks(currentUser, setTasks, history, showError)
+    loadTasks(currentUser, setTasks, history, showError);
   }, [currentUser, history, showError]);
 
   const onTaskClick = taskId => () => {
     history.push(`/task/${taskId}`);
   };
 
-  return <ViewTaskList tasks={tasks} onTaskClick={onTaskClick}/>;
+  return <TaskListView tasks={tasks} onTaskClick={onTaskClick}/>;
 };
 
 function loadTasks(currentUser, setTasks, history, showError) {
   processApi.getUserTaskList(currentUser.username || "", history)
     .then(tasks => {
-      const updatedTasks = tasks.map(task => {
-          return processApi.getProcessInstanceVariables(task.processInstanceId)
-            .then(processVariables => {
-              task.processBusinessKey = processVariables.processBusinessKey ? processVariables.processBusinessKey.value : '';
-              task.processName = processVariables.processName ? processVariables.processName.value : '';
-              return task;
-            })
-        });
-        Promise.all(updatedTasks).then(resolvedTasks => setTasks(resolvedTasks));
+      const updatedTasksPromises = tasks.map(task => {
+        const {processInstanceId} = task;
+
+        return processApi.getHistoryProcessInstanceById(processInstanceId, history)
+          .then(processInstance => {
+            return processApi.getProcessInstanceVariables(processInstanceId, history)
+              .then(processVariables => {
+                task.processBusinessKey = processInstance.businessKey || '';
+                task.processName = processVariables.processName.value || '';
+                return task;
+              });
+          });
+      });
+
+      Promise.all(updatedTasksPromises).then(resolvedTasks => setTasks(resolvedTasks));
     })
     .catch(error => showError("Ошибка при попытке загрузки списка задач: " + error))
 }

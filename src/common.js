@@ -1,6 +1,7 @@
 import ServerValidationError from "./errors/ServerValidationError";
 import * as locale from "date-fns/locale";
 import classNames from "classnames";
+import {OMNI} from "./security/Authorities";
 
 const getUserLanguage = () => {
   if (window.navigator.languages) {
@@ -66,7 +67,15 @@ export const getCommonJsonRequestProps = () => {
   };
 };
 
+export const isOmniUser = user => {
+  const userAuthorities = user && user.authorities ? user.authorities.map(authObject => authObject.authority) : [];
+  return userAuthorities.includes(OMNI);
+};
+
 export const previewfy = (classes, className, preview) => classNames({[className]: className, [classes.preview]: preview});
 
 export const disablefy = (classes, className, preview, disabled) =>
   classNames({[className]: className, [classes.preview]: preview, [classes.disabled]: disabled});
+
+export const emptyFunction = () => {
+};
