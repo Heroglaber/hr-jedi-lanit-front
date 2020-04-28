@@ -6,7 +6,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import ContextActionsSection from "../../components/contextActionSection/ContextActionsSection";
-import {HR, OMNI} from "../../security/Authorities";
+import {ALL} from "../../security/Authorities";
 import AuthWrapper from "../../security/AuthWrapper";
 import {StartVacationApprovalProcessTileButton} from "./actions/StartVacationApprovalProcessTileButton";
 
@@ -20,7 +20,7 @@ const VacationsView = ({preview = false, history}) => {
         <CardContent>
           <Typography className={classes.pageTitle} variant="h3">Отпуска</Typography>
           <ContextActionsSection history={history}>
-            <AuthWrapper authorities={[OMNI, HR]}>
+            <AuthWrapper authorities={ALL}>
               <StartVacationApprovalProcessTileButton/>
             </AuthWrapper>
           </ContextActionsSection>

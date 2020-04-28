@@ -9,7 +9,7 @@ import ContextActionsSection from "../../../components/contextActionSection/Cont
 import {useTaskStyles} from "../taskStyles";
 import CommonProcessInfo from "../../../components/processInfo/CommonProcessInfo";
 
-const ActionSelector = ({actions, actionByActionIdMap, currentAction, setCurrentAction, disabled = false, classes}) => (
+const ActionSelector = ({actionByActionIdMap, currentAction, setCurrentAction, disabled = false, classes}) => (
   Object.keys(actionByActionIdMap).length > 1 &&
   <Select
     value={currentAction.id}
@@ -19,7 +19,7 @@ const ActionSelector = ({actions, actionByActionIdMap, currentAction, setCurrent
   >
     {
       Object.entries(actionByActionIdMap)
-      .map(actionIdAndAction => <MenuItem key={actionIdAndAction[0]} value={actionIdAndAction[0]}>{actionIdAndAction[1].name}</MenuItem>)
+        .map(actionIdAndAction => <MenuItem key={actionIdAndAction[0]} value={actionIdAndAction[0]}>{actionIdAndAction[1].name}</MenuItem>)
     }
   </Select>
 );

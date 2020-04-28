@@ -9,6 +9,7 @@ import ContextActionsSection from "../../components/contextActionSection/Context
 import {HR, OMNI} from "../../security/Authorities";
 import AuthWrapper from "../../security/AuthWrapper";
 import {OpenAttendanceImportTileButton} from "./actions/OpenAttendanceImportTileButton";
+import {DownloadAttendanceReportTileButton} from "./actions/DownloadAttendanceReportTileButton";
 
 const AttendancesView = ({monthsWithoutAttendanceInfo, currentYear, preview = true, history}) => {
   const classes = useSimplePageStyles();
@@ -23,6 +24,9 @@ const AttendancesView = ({monthsWithoutAttendanceInfo, currentYear, preview = tr
           <ContextActionsSection history={history}>
             <AuthWrapper authorities={[OMNI, HR]}>
               <OpenAttendanceImportTileButton/>
+            </AuthWrapper>
+            <AuthWrapper authorities={[OMNI, HR]}>
+              <DownloadAttendanceReportTileButton/>
             </AuthWrapper>
           </ContextActionsSection>
         </CardContent>

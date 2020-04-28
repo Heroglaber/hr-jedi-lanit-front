@@ -16,6 +16,7 @@ import Vacations from "../pages/vacations/Vacations";
 import Employees from "../pages/employees/Employees";
 import Profile from "../pages/profile/Profile";
 import Settings from "../pages/settings/Settings";
+import AttendancesReport from "../pages/attendances/report/AttendancesReport";
 
 const App = () => {
   const classes = useAppStyles();
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/login" component={Login} exact/>
         <AuthRoute path="/" component={Landing} authorities={ALL} exact/>
         <AuthRoute path="/attendances" component={Attendances} authorities={[HR, OMNI]} exact/>
+        <AuthRoute path="/attendances/report" component={AttendancesReport} authorities={[HR, OMNI]} exact/>
         <AuthRoute path="/system" component={SystemInfo} authorities={[ADMIN, OMNI]} exact/>
         <AuthRoute path="/settings" component={Settings} authorities={[ADMIN, OMNI]} exact/>
         <AuthRoute path="/task/:id" component={Task} authorities={ALL} exact/>

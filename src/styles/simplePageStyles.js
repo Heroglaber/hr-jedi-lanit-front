@@ -71,6 +71,9 @@ export const simplePageStyles = theme => ({
   bottomButton: {
     marginLeft: theme.spacing(2),
     marginBottom: theme.spacing(2),
+  },
+  dateTimeInput: {
+    width: 200,
   }
 });
 

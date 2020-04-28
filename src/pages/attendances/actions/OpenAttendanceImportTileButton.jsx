@@ -1,4 +1,4 @@
-import Archive from "@material-ui/icons/Archive";
+import CloudUload from "@material-ui/icons/CloudUpload";
 import React from "react";
 import TileButton from "../../../components/tileButton/TileButton";
 
@@ -6,8 +6,8 @@ export const OpenAttendanceImportTileButton = ({history, className, disabled = f
   <TileButton
     className={className}
     buttonLabel="Импорт данных посещаемости"
-    IconComponent={Archive}
-    onClick={() => history.push("attendances/attendance-import")}
+    IconComponent={CloudUload}
+    onClick={() => history.push("/attendances/attendance-import")}
     disabled={disabled}
     visible={visible}
   />

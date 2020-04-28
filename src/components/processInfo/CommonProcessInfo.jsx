@@ -17,7 +17,7 @@ const CommonProcessInfo = ({task, process, history}) => {
     if (initiatorLogin) {
       loadInitiatorFullName(initiatorLogin, setFullName, showError, history);
     }
-  }, [loadInitiatorFullName]);
+  }, [history, initiatorLogin, showError]);
 
   const classes = useProcessInfoStyles();
   return (

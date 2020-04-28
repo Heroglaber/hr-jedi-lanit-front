@@ -24,12 +24,12 @@ const Profile = (props) => {
   useEffect(() => {
     findUser(history, tokenUser.username).then(user => setCurrentUser(user))
       .catch(() => showError("Произошла ошибка при загрузке информации о пользователе"));
-  }, [tokenUser, history]);
+  }, [tokenUser, history, showError]);
 
   useEffect(() => {
     loadAvatar(history).then(avatar => setAvatar(avatar))
       .catch(() => showError("Произошла ошибка при скачивании аватара"));
-  }, [history]);
+  }, [history, showError]);
 
   return (
     <ProfileView
