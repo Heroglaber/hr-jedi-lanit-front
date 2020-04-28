@@ -3,8 +3,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {useTaskStyles} from "../taskStyles";
 import {DatePicker} from "../../../forms/inputs/datePicker/DatePicker";
-import DateFnsUtils from "@date-io/date-fns";
-import {MuiPickersUtilsProvider} from "@material-ui/pickers";
+import {formikValidate} from "../../../forms";
+import {notPrecededBy, required} from "../../../forms/formik/formikValidationRules";
+import TaskHarness from "../taskHarness/TaskHarness";
 
 const ActionSubmit = props => {
   const {values, setFieldValue, handleSubmit, isSubmitting, errors, setErrors} = props;
@@ -15,9 +16,8 @@ const ActionSubmit = props => {
         <Typography>
           Введите даты отпуска и отправьте заявку на согласование.
         </Typography>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <DatePicker
-          name="taskVariables.vacation.startPeriod"
+          name="taskVariables.vacation.start"
           label="Начало отпуска"
           disabled={isSubmitting}
           isKeyboard
@@ -38,7 +38,6 @@ const ActionSubmit = props => {
           setErrors={setErrors}
           className={classes.formInputDate}
         />
-        </MuiPickersUtilsProvider>
 
       </div>
       <div className={classes.actionButtons}>
@@ -79,15 +78,28 @@ const ActionCancel = props => {
   );
 };
 
-const vacationApprovalPrepareRequestUiDesc = {
+const validateSubmit = formikValidate({
+  taskVariables: {
+    vacation: {
+      start: [required()],
+      end: [required(), notPrecededBy("start")],
+    },
+  },
+});
+
+const updateVariables = (variables, action) => ({
+  vacation: variables.vacation,
+  action: action.id,
+});
+
+const vacationApprovalPrepareRequestUiDescription = {
   actions: [
     {
       id: "submit",
       name: "Отправить запрос",
       ComponentAction: ActionSubmit,
-      /*ComponentAction: ActionSubmit,
       validate: validateSubmit,
-      updateVariables: updateTaskVariables,*/
+      updateVariables: updateVariables,
     },
     {
       id: "cancel",
@@ -98,4 +110,6 @@ const vacationApprovalPrepareRequestUiDesc = {
   defaultActionId: "submit",
 };
 
-export default vacationApprovalPrepareRequestUiDesc;
+const VacationApprovalPrepareRequest = props => <TaskHarness uiDescription={vacationApprovalPrepareRequestUiDescription} {...props}/>
+
+export default VacationApprovalPrepareRequest;

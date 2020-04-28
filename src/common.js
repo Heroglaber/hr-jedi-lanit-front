@@ -79,3 +79,5 @@ export const disablefy = (classes, className, preview, disabled) =>
 
 export const emptyFunction = () => {
 };
+
+export const isString = checkedValue => typeof checkedValue === 'string' || checkedValue instanceof String;

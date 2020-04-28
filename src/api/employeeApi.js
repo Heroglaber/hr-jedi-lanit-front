@@ -29,7 +29,7 @@ export const findUser = (history, login) =>
     .then(response => response.json());
 
 export const getEmployeeFullNameByLogin = (employeeLogin, history) =>
-  axios.get(`/hr-rest/employees/${employeeLogin}/fullName`, {      //todo отразить в хинтах ревьюеров
+  axios.get(`/hr-rest/employees/${employeeLogin}/fullName`, {
       ...getCommonJsonRequestProps(),
     })
     .then(response => throwHttpErrors(response, history))

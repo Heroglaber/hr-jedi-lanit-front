@@ -1,14 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import getTaskUiDescription from "./getTaskUiDescription";
+import getTaskComponent from "./getTaskComponent";
 import AccessDenied from "../../errors/AccessDenied";
 import {isOmniUser} from "../../common";
 import {AppContext} from "../../AppContext";
 import * as processApi from "../../api/processApi"
 import {useSnackbar} from "../../utils/snackbar";
-import TaskStub from "./TaskStub";
-import TaskHarness from "./taskHarness/TaskHarness";
-import Button from "@material-ui/core/Button";
 
 const Task = (props) => {
   const [context] = useContext(AppContext);
@@ -20,24 +17,21 @@ const Task = (props) => {
 
   useEffect(() => {
     loadTask(taskId, setTask, showError, history)
-  }, [loadTask, history]);
+  }, [history, taskId, showError]);
 
   if (!task) {
     return <CircularProgress/>;
   }
 
-  const taskUiDescription = getTaskUiDescription(task);
-  const TaskComponent = taskUiDescription ? TaskHarness  : TaskStub;
-
+  const TaskComponent = getTaskComponent(task);
   return (isOmniUser(currentUser) || currentUser.username === task.assignee) ?
-    <TaskComponent uiDescription={taskUiDescription} task={task} currentUser={currentUser} {...props}/> :
+    <TaskComponent task={task} currentUser={currentUser} {...props}/> :
     <AccessDenied/>;
 };
 
 const loadTask = (taskId, setTask, showError, history) => {
   processApi.getTaskWithProcessInfoAndVariablesById(taskId, history)
     .then(setTask)
-    //.then(a => history.push("/task-list"))
     .catch(error => showError("Ошибка при попытке загрузки информации по задаче: " + error))
 
 };

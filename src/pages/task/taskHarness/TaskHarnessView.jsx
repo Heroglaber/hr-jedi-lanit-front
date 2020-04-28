@@ -1,15 +1,13 @@
-import React, {useState} from "react";
+import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import ProcessTitle from "../../../components/processTitle/ProcessTitle";
-import FormErrors from "../../../forms/FormErrors";
 import ContextActionsSection from "../../../components/contextActionSection/ContextActionsSection";
 import {useTaskStyles} from "../taskStyles";
 import CommonProcessInfo from "../../../components/processInfo/CommonProcessInfo";
-import Button from "@material-ui/core/Button";
 
 const ActionSelector = ({actions, actionByActionIdMap, currentAction, setCurrentAction, disabled = false, classes}) => (
   Object.keys(actionByActionIdMap).length > 1 &&
@@ -27,7 +25,7 @@ const ActionSelector = ({actions, actionByActionIdMap, currentAction, setCurrent
 );
 
 const TaskHarnessView = (props) => {
-  const {task, uiDescription, actionByActionIdMap, currentAction, setCurrentAction, history, error, isSubmitting} = props;
+  const {task, uiDescription, actionByActionIdMap, currentAction, setCurrentAction, history, isSubmitting} = props;
   const {actions, TaskProcessInfo} = uiDescription;
 
   const ProcessInfo = TaskProcessInfo || CommonProcessInfo;
@@ -38,7 +36,7 @@ const TaskHarnessView = (props) => {
     <form>
       <Card classes={{root: classes.processCard}}>
         <CardContent>
-          <ProcessTitle task={task}/>
+          <ProcessTitle task={task} isTitleNavigable={false}/>
           <ProcessInfo task={task} history={history}/>
           <Typography variant="h4">{task.name}</Typography>
           <ActionSelector

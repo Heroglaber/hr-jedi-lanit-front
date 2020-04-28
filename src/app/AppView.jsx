@@ -12,7 +12,7 @@ import {ADMIN, ALL, OMNI, HR} from "../security/Authorities";
 import AccessDenied from "../errors/AccessDenied";
 import TaskList from "../pages/tasklist/TaskList";
 import Task from "../pages/task/Task";
-import Vacation from "../pages/vacation/Vacation";
+import Vacations from "../pages/vacations/Vacations";
 import Employees from "../pages/employees/Employees";
 import Profile from "../pages/profile/Profile";
 import Settings from "../pages/settings/Settings";
@@ -30,7 +30,7 @@ const App = () => {
         <AuthRoute path="/settings" component={Settings} authorities={[ADMIN, OMNI]} exact/>
         <AuthRoute path="/task/:id" component={Task} authorities={ALL} exact/>
         <AuthRoute path="/task-list" component={TaskList} authorities={ALL}  exact/>
-        <AuthRoute path="/vacation" component={Vacation} authorities={ALL} exact/>
+        <AuthRoute path="/vacations" component={Vacations} authorities={ALL} exact/>
         <AuthRoute path="/profile" component={Profile} authorities={ALL} exact/>
         <AuthRoute path="/employees" component={Employees} exact/>
         <AuthRoute path="/access-denied" component={AccessDenied} exact/>

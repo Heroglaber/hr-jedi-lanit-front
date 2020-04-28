@@ -17,6 +17,7 @@ const actionClose = key => <ActionClose id={key}/>;
 export const snackbarProviderProps = {
   autoHideDuration: 6000,
   action: actionClose,
+  anchorOrigin: { horizontal: "right", vertical: "bottom" },
 };
 
 export const useSnackbar = () => {

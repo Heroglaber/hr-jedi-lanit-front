@@ -9,47 +9,14 @@ export const getUserTaskList = (assignee, history) =>
     .then(response => response.json())
     .then(tasks => tasks || []);
 
-export const getUserTask = (processKey, taskId, executionId) => {
-  const params = new URLSearchParams();
-  params.append("processDefinitionKey", processKey);
-  params.append("taskDefinitionKey", taskId);
-
-  if (executionId) {
-    params.append("executionId", executionId);
-  }
-  return fetch(`/rest/task?${params}`)
-    .then(throwHttpErrors)
-    .then(response => response.json());
-};
-
-
-export const completeTask = (taskId, variables, history) => {
-  return fetch(`/rest/task/${taskId}/complete`, {
-    method: 'POST',
-    body: JSON.stringify({variables: variables}),
-    ...getCommonJsonRequestProps()
-  })
-    .then(response => throwHttpErrors(response, history));
-};
-
-export const claimTask = (userId, taskId) => {
-  return fetch(`/rest/task/${taskId}/claim`, {
+export const startProcess = (processKey, history, processVariables = {}) =>
+  fetch(`/rest/process-definition/key/${processKey}/start`, {
     method: "POST",
-    body: JSON.stringify({id: userId}),
-    ...getCommonJsonRequestProps()
-  })
-    .then(throwHttpErrors)
-};
-
-export const startProcess = (processId, history, variables) => {
-  return fetch(`/rest/process-definition/key/${processId}/start`, {
-    method: "POST",
-    body: JSON.stringify({variables: variables}),
-    ...getCommonJsonRequestProps()
+    ...getCommonJsonRequestProps(),
+    body: JSON.stringify(processVariables && {variables: processVariables}),
   })
     .then(response => throwHttpErrors(response, history))
     .then(response => response.json());
-};
 
 export const getProcessInstanceVariables = (processInstanceId, history) =>
   fetch(`/rest/process-instance/${processInstanceId}/variables`, {
@@ -58,37 +25,6 @@ export const getProcessInstanceVariables = (processInstanceId, history) =>
   })
     .then(response => throwHttpErrors(response, history))
     .then(response => response.json());
-
-export const findProcessInstance = (searchParams, history) => {
-  const params = new URLSearchParams();
-  for (let key in searchParams) {
-    if (!searchParams.hasOwnProperty(key)) {
-      continue;
-    }
-    params.append(key, searchParams[key]);
-  }
-  return fetch(`/rest/process-instance?${params}`)
-    .then(response => throwHttpErrors(response, history))
-    .then(response => response.json())
-};
-
-export const sendMessage = (processInstanceId, messageName, history) => {
-  return fetch(`/rest/message`, {
-    method: "POST",
-    body: JSON.stringify({
-      messageName: messageName,
-      processInstanceId: processInstanceId
-    }),
-    ...getCommonJsonRequestProps()
-  })
-    .then(response => throwHttpErrors(response, history));
-};
-
-
-
-
-
-
 
 export const getTaskWithProcessInfoAndVariablesById = (taskId, history) =>
   getTaskById(taskId, history)
@@ -139,3 +75,53 @@ const unwrapValues = (variables) => {
   });
   return [values, metas];
 };
+
+export const getTasksByProcessIdAndAssignee = (processId, assignee, history) => {
+  const url = `/rest/task?processInstanceId=${processId}` + (assignee ? `&assignee=${assignee}` : "");
+  return fetch(url, {method: "GET", ...getCommonJsonRequestProps()})
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.json())
+};
+
+export const completeTaskWithVariablesUpdating = (taskId, variablesUpdates, variableMetas, history) => {
+  const updates = wrapValues(variablesUpdates, variableMetas);
+  const patch = {modifications: {}};
+  Object.keys(updates).forEach((name) => {
+    patch.modifications[name] = {...updates[name]};
+    if (patch.modifications[name].type === "Object") {
+      patch.modifications[name].value = JSON.stringify(patch.modifications[name].value);
+    }
+  });
+  return updateTaskLocalVariables(taskId, patch, history)
+    .then(() => completeTask(taskId, history));
+};
+
+const wrapValues = (values, metas) => {
+  const variables = {};
+  Object.keys(values).forEach((name) => {
+    variables[name] = {
+      ...(metas[name] || []),
+      value: values[name],
+    };
+  });
+  return variables;
+};
+
+const updateTaskLocalVariables = (taskId, patch, history) =>
+  fetch(`/rest/task/${taskId}/localVariables`, {
+    ...getCommonJsonRequestProps(),
+    method: "POST",
+    body: JSON.stringify(patch),
+  })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.text());
+
+
+const completeTask = (taskId, history) =>
+  fetch(`/rest/task/${taskId}/complete`, {
+    ...getCommonJsonRequestProps(),
+    method: "POST",
+    body: "",
+  })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.text());

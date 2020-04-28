@@ -12,7 +12,7 @@ const TaskStub = (props) => {
     <form>
       <Card>
         <CardContent>
-          <ProcessTitle {...props}/>
+          <ProcessTitle {...props} isTitleNavigable={false}/>
           <Typography className={classes.stubText} component="span">
             Это форма-заглушка, необходимо:
             <ul>

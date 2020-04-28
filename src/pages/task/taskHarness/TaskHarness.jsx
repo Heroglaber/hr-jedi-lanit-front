@@ -1,29 +1,27 @@
 import React, {useState} from "react";
 import TaskHarnessView from "./TaskHarnessView";
-import * as taskApi from "../../../api/taskApi";
+import * as processApi from "../../../api/processApi";
 import {useSnackbar} from "../../../utils/snackbar";
 import {emptyFunction} from "../../../common";
 import {useFormik} from "formik";
-import Button from "@material-ui/core/Button";
 
 const TaskHarness = (props) => {
   const {uiDescription, task} = props;
   const {actions, defaultActionId} = uiDescription;
   const actionByActionIdMap = convertActionsToMapOfActionByActionId(actions);
   const [currentAction, setCurrentAction] = useState(actionByActionIdMap[defaultActionId] || actions[0]);
-  const {showError} = useSnackbar();
+  const {showError, showSuccess} = useSnackbar();
 
-  const {initialValues, values, handleSubmit, isSubmitting, setFieldValue, errors, setErrors} = useFormik({
+  const {values, handleSubmit, isSubmitting, setFieldValue, errors, setErrors} = useFormik({
     initialValues: {
       taskVariables: task.variables,
       taskVariableMetas: task.variableMetas
     },
-    onSubmit: handleTaskSubmit(props, currentAction, showError),
+    onSubmit: handleTaskSubmit(props, currentAction, showSuccess, showError),
     validate: currentAction.validate || emptyFunction,
     validateOnChange: false,
     validateOnBlur: false,
   });
-
 
   return <TaskHarnessView
     actionByActionIdMap={actionByActionIdMap}
@@ -48,8 +46,9 @@ const convertActionsToMapOfActionByActionId = actions => {
     : {};
 };
 
-const handleTaskSubmit = (props, currentAction, showError) => (values) => {
+const handleTaskSubmit = (props, currentAction, showSuccess, showError) => (values) => {
 
+  const preCompleteTaskAction = currentAction.preCompleteTaskAction || defaultPreCompleteTaskAction;
   const completeTaskAction = currentAction.completeTaskAction || defaultCompleteTaskAction;
   const postCompleteTaskAction = currentAction.postCompleteTaskAction || defaultPostCompleteAction;
   const updateVariables = currentAction.updateVariables || defaultUpdateVariables;
@@ -57,27 +56,30 @@ const handleTaskSubmit = (props, currentAction, showError) => (values) => {
 
   const {task} = props;
   const variablesUpdates = updateVariables(values.taskVariables, currentAction, task);
-  return completeTaskAction(props, variablesUpdates, variableMetas, showError)
-    .then(() => postCompleteTaskAction(props, showError));
+  return preCompleteTaskAction(props, values, showSuccess, showError)
+    .then(() => completeTaskAction(props, variablesUpdates, variableMetas, showError))
+    .then(() => postCompleteTaskAction(props, showError))
+    .then(() => showSuccess(`Задача "${task.name}" успешно завершена!`));
 };
+
+const defaultPreCompleteTaskAction = () => Promise.resolve("default pre-complete");
 
 const defaultCompleteTaskAction = (props, variablesUpdates, variableMetas, showError) => {
   const {task, history} = props;
-  return taskApi.completeTaskWithUpdatingVariables(task.id, variablesUpdates, variableMetas, history)
+  return processApi.completeTaskWithVariablesUpdating(task.id, variablesUpdates, variableMetas, history)
     .catch(error => showError("Возникла ошибка при завершении задачи" + error));
 };
 
 const defaultPostCompleteAction = (props, showError) => {
-  return taskApi.getTasksByProcessIdAndAssignee(props.task.processInstanceId, props.currentUser.username)
+  return processApi.getTasksByProcessIdAndAssignee(props.task.processInstanceId, props.currentUser.username)
     .then(taskList => {
       const destinationUrl = taskList && taskList.length ? `/task/${taskList[0].id}` : "/";
-      return props.history.push("/")
+      return props.history.push(destinationUrl)
     })
     .catch(error => showError("Возникла ошибка при переходе со страницы задачи " + error));
 };
 
 const defaultUpdateVariables = (variables, action) => ({
-  ...variables,
   action: action.id,
 });
 

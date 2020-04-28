@@ -105,7 +105,9 @@ export const form = theme => ({
     borderRadius: 5,
   },
   formInputDate: {
-    width: 160,
+    width: 152,
+    marginTop: 16,
+    marginRight: 16,
   },
   formGeneralError: {
     extend: theme.typography.body2,

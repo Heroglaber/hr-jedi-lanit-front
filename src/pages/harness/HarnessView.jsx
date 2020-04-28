@@ -11,7 +11,6 @@ import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import Button from '@material-ui/core/Button';
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -77,15 +76,6 @@ const Header = ({toolbarExpanded, onExpandToolbarClick, classes, ...otherProps})
           HR Jedi
         </Typography>
       </NavLink>
-      <AuthWrapper authorities={ALL}>
-        <Tooltip title="Оформить заявку на отпуск">
-          <Button variant="outlined" href="/vacation" startIcon={<DirectionsBoat/>}>
-            <Typography>
-              Оформить заявку на отпуск
-            </Typography>
-          </Button>
-        </Tooltip>
-      </AuthWrapper>
       <AccountMenu {...otherProps} classes={classes}/>
     </Toolbar>
   </AppBar>
@@ -110,6 +100,9 @@ const LeftToolbar = ({classes, toolbarExpanded, onCollapseToolbarClick, onAccoun
         <DrawerLinkItem title="Список задач" to="/task-list" onClick={onAccountMenuClose} classes={classes}><AssignmentTurnedInIcon/></DrawerLinkItem>
       </AuthWrapper>
       <DrawerLinkItem title="Сотрудники" to="/employees" onClick={onAccountMenuClose} classes={classes}><PeopleIcon/></DrawerLinkItem>
+      <AuthWrapper authorities={ALL}>
+        <DrawerLinkItem title="Отпуска" to="/vacations" onClick={onAccountMenuClose} classes={classes}><DirectionsBoat/></DrawerLinkItem>
+      </AuthWrapper>
       <AuthWrapper authorities={[OMNI, HR]}>
         <DrawerLinkItem title="Посещаемость" to="/attendances" onClick={onAccountMenuClose} classes={classes}><HowToRegIcon/></DrawerLinkItem>
       </AuthWrapper>
