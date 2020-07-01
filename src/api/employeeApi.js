@@ -17,8 +17,7 @@ export const updateEmail = (history, email) =>
     body: email,
   })
     .then(response => throwHttpErrors(response, history))
-    .then(response => response.json())
-    .then(users => users || []);
+    .then(response => response.text());
 
 export const findUser = (history, login) =>
   fetch(`/hr-rest/employees/${login}`, {
@@ -43,3 +42,11 @@ export const loadAvatar = (history) =>
     .then(response => throwHttpErrors(response, history))
     .then(response => response.blob())
     .then(image => image.size > 0 ? window.URL.createObjectURL(image) : null);
+
+export const generateSecuredPassword = (history) =>
+  fetch(`/hr-rest/employees/generate-pass`, {
+    method: "GET",
+    ...getCommonJsonRequestProps(),
+  })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.text());

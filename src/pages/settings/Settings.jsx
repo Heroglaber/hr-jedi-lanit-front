@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import SettingsView from "./SettingsView";
-import {generateSecuredPassword} from "../../api/securityApi";
+import {generateSecuredPassword} from "../../api/employeeApi";
 import {useSnackbar} from "../../utils/snackbar";
 
 const Settings = (props) => {
