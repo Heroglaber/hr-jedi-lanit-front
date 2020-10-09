@@ -8,7 +8,7 @@ const ProcessTitle = ({task, process, isTitleNavigable = true}) => {
   const classes = useProcessTitleStyles();
   const proc = process || task.process;
   const variables = (task && task.variables) || (process && process.variables) || {};
-  const helmetTitle = `${proc.businessKey || "---"} - ${task ? "Задачи" : "Процессы"} - Пампа`;
+  const helmetTitle = `${proc.businessKey || "---"} - ${task ? "Задачи" : "Процессы"} - HR Jedi`;
   return (
     <>
       <Helmet title={helmetTitle}/>
