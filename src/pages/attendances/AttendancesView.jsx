@@ -8,7 +8,6 @@ import Typography from "@material-ui/core/Typography";
 import ContextActionsSection from "../../components/contextActionSection/ContextActionsSection";
 import {HR, OMNI} from "../../security/Authorities";
 import AuthWrapper from "../../security/AuthWrapper";
-import {OpenAttendanceImportTileButton} from "./actions/OpenAttendanceImportTileButton";
 import {DownloadAttendanceReportTileButton} from "./actions/DownloadAttendanceReportTileButton";
 
 const AttendancesView = ({monthsWithoutAttendanceInfo, currentYear, preview = true, history}) => {
@@ -22,9 +21,6 @@ const AttendancesView = ({monthsWithoutAttendanceInfo, currentYear, preview = tr
           <Typography className={classes.pageTitle} variant="h3">Посещаемость</Typography>
           <YearAttendanceInfo monthsWithoutAttendanceInfo={monthsWithoutAttendanceInfo} currentYear={currentYear} classes={classes}/>
           <ContextActionsSection history={history}>
-            <AuthWrapper authorities={[OMNI, HR]}>
-              <OpenAttendanceImportTileButton/>
-            </AuthWrapper>
             <AuthWrapper authorities={[OMNI, HR]}>
               <DownloadAttendanceReportTileButton/>
             </AuthWrapper>
