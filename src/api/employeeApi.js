@@ -50,3 +50,21 @@ export const generateSecuredPassword = (history) =>
   })
     .then(response => throwHttpErrors(response, history))
     .then(response => response.text());
+
+export const getEmployeeWithRole = history =>
+  fetch(`/hr-rest/employees/employee-with-role`, {
+    method: "GET",
+    ...getCommonJsonRequestProps(),
+  })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.json())
+    .then(users => users || []);
+
+export const getEmployeeCountByRole = history =>
+  fetch(`/hr-rest/employees/employee-count-by-role`, {
+    method: "GET",
+    ...getCommonJsonRequestProps(),
+  })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.json())
+    .then(users => users || []);
