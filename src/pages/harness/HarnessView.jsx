@@ -29,7 +29,7 @@ import hrJediLogo from "../../images/hr-jedi.png";
 import AuthWrapper from "../../security/AuthWrapper";
 import DirectionsBoat from "@material-ui/icons/DirectionsBoat"
 import {ADMIN, ALL, HR, OMNI} from "../../security/Authorities";
-import {Settings} from "@material-ui/icons";
+import {Settings, CardTravel} from "@material-ui/icons";
 
 const AccountMenu = ({classes, currentUser, onLogoutClick, accountMenuAnchor, onAccountMenuClick, onAccountMenuClose}) => {
   return (
@@ -100,6 +100,9 @@ const LeftToolbar = ({classes, toolbarExpanded, onCollapseToolbarClick, onAccoun
         <DrawerLinkItem title="Список задач" to="/task-list" onClick={onAccountMenuClose} classes={classes}><AssignmentTurnedInIcon/></DrawerLinkItem>
       </AuthWrapper>
       <DrawerLinkItem title="Сотрудники" to="/employees" onClick={onAccountMenuClose} classes={classes}><PeopleIcon/></DrawerLinkItem>
+      <AuthWrapper authorities={[OMNI, HR]}>
+        <DrawerLinkItem title="Командировки" to="/business-trips" onClick={onAccountMenuClose} classes={classes}><CardTravel/></DrawerLinkItem>
+      </AuthWrapper>
       <AuthWrapper authorities={ALL}>
         <DrawerLinkItem title="Отпуска" to="/vacations" onClick={onAccountMenuClose} classes={classes}><DirectionsBoat/></DrawerLinkItem>
       </AuthWrapper>

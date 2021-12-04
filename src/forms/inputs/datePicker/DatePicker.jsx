@@ -2,7 +2,7 @@ import React from "react";
 import {DatePicker as MuiDatePicker, KeyboardDatePicker as MuiKeyboardDatePicker} from "@material-ui/pickers";
 import {format as formatDate, isValid as isValidDate} from "date-fns";
 import {useDatePickerStyles} from "./datePickerStyles";
-import {isString} from "../../../common";
+import {deleteError, findError} from "../utils";
 
 const ISO_FORMAT = 'yyyy-MM-dd';
 const DAY_MONTH_YEAR_FORMAT = 'dd.MM.yyyy';
@@ -56,38 +56,4 @@ export const DatePicker = ({
       {...otherProps}
     />
   );
-};
-
-const findError = (errors, name) => {
-  if (!isString(name) || name.length === 0 || !errors) {
-    return null;
-  }
-
-  const nameParts = name.split(".");
-  let foundError = errors;
-  for (let namePart of nameParts) {
-    foundError = foundError[namePart];
-    if (!foundError) {
-      return null;
-    }
-  }
-
-  return isString(foundError) ? foundError : null;
-};
-
-const deleteError = (errors, name) => {
-  if (!findError(errors, name)) {
-    return;
-  }
-
-  const nameParts = name.split(".");
-  let errorContainer = errors;
-
-  nameParts.forEach((namePart, partIndex) => {
-    if(partIndex === nameParts.length - 1){
-      delete errorContainer[namePart];
-      return;
-    }
-    errorContainer = errorContainer[namePart];
-  });
 };

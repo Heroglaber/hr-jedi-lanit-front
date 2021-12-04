@@ -109,6 +109,11 @@ export const form = theme => ({
     marginTop: 16,
     marginRight: 16,
   },
+  formInputBudget: {
+    width: 300,
+    marginTop: 16,
+    marginRight: 16
+  },
   formGeneralError: {
     extend: theme.typography.body2,
     marginTop: 10,
