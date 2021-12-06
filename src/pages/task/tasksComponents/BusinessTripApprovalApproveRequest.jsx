@@ -57,7 +57,7 @@ const ActionReject = props => {
     <>
       <div className={classes.actionContent}>
         <Typography>
-          Отклоните заявку, если она не соответствует требованиям к оформлению отпусков.
+          Отклоните заявку, если командировка потеряла актуальность.
         </Typography>
       </div>
       <div className={classes.actionButtons}>
@@ -67,7 +67,8 @@ const ActionReject = props => {
           color="primary"
           onClick={handleSubmit}
           disabled={isSubmitting}
-        >Отклонить
+        >
+          Отклонить
         </Button>
       </div>
     </>

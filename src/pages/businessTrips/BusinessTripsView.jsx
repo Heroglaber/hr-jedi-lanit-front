@@ -7,8 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import ContextActionsSection from "../../components/contextActionSection/ContextActionsSection";
 import AuthWrapper from "../../security/AuthWrapper";
 import {HR, OMNI} from "../../security/Authorities";
-import {StartVacationApprovalProcessTileButton} from "../vacations/actions/StartVacationApprovalProcessTileButton";
 import Card from "@material-ui/core/Card";
+import {StartBusinessTripsApprovalProcessTileButton} from "./actions/StartBusinessTripsApprovalProcessTileButton";
 
 const BusinessTripsView = ({preview = false, history}) => {
   const classes = useSimplePageStyles();
@@ -22,7 +22,7 @@ const BusinessTripsView = ({preview = false, history}) => {
           <Typography className={classes.pageTitle} variant="h3">Командировки</Typography>
           <ContextActionsSection history={history}>
             <AuthWrapper authorities={[HR, OMNI]}>
-              <StartVacationApprovalProcessTileButton/>
+              <StartBusinessTripsApprovalProcessTileButton/>
             </AuthWrapper>
           </ContextActionsSection>
         </CardContent>

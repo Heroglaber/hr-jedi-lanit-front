@@ -100,7 +100,7 @@ const updateVariables = (variables, action) => ({
   action: action.id,
 });
 
-const vacationApprovalPrepareRequestUiDescription = {
+const businessTripApprovalPrepareRequestUiDescription = {
   actions: [
     {
       id: "submit",
@@ -118,6 +118,6 @@ const vacationApprovalPrepareRequestUiDescription = {
   defaultActionId: "submit",
 };
 
-const BusinessTripApprovalPrepareRequest = props => <TaskHarness uiDescription={vacationApprovalPrepareRequestUiDescription} {...props}/>
+const BusinessTripApprovalPrepareRequest = props => <TaskHarness uiDescription={businessTripApprovalPrepareRequestUiDescription} {...props}/>
 
 export default BusinessTripApprovalPrepareRequest;
