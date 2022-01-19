@@ -1,5 +1,4 @@
 import {getCommonJsonRequestProps, throwHttpErrors} from "../common";
-import axios from "axios";
 import download from "js-file-download";
 
 const getFileName = (response) => {
@@ -9,11 +8,12 @@ const getFileName = (response) => {
 };
 
 export const getMonthsWithoutAttendanceInfo = (year, history) =>
-  axios.get(`/hr-rest/attendances/monthsWithoutInfo/${year}`, {
+  fetch(`/hr-rest/attendances/monthsWithoutInfo/${year}`, {
+      method: "GET",
       ...getCommonJsonRequestProps(),
     })
     .then(response => throwHttpErrors(response, history))
-    .then(response => response.data)
+    .then(response => response.json())
     .then(months => months || []);
 
 export const getAttendanceReport = (month, year) =>
