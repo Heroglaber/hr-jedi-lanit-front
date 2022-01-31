@@ -1,4 +1,4 @@
-import {getCommonJsonRequestProps, throwHttpErrors} from "../common";
+import {getCommonHttpRequestProps, getCommonJsonRequestProps, throwHttpErrors} from "../common";
 
 export const getAllUsers = (history) =>
   fetch(`/hr-rest/employees`, {
@@ -42,6 +42,15 @@ export const loadAvatar = (history) =>
     .then(response => throwHttpErrors(response, history))
     .then(response => response.blob())
     .then(image => image.size > 0 ? window.URL.createObjectURL(image) : null);
+
+export const uploadAvatar = (history, imageData) =>
+  fetch(`/hr-rest/employees/current/avatar`, {
+    method: "POST",
+    ...getCommonHttpRequestProps(),
+    body: imageData,
+  })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.text());
 
 export const generateSecuredPassword = (history) =>
   fetch(`/hr-rest/employees/generate-pass`, {
