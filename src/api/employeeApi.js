@@ -52,6 +52,16 @@ export const uploadAvatar = (history, imageData) =>
     .then(response => throwHttpErrors(response, history))
     .then(response => response.text());
 
+export const uploadEmployees = (history, userFile) =>
+  fetch(`/hr-rest/employees/upload`, {
+    method: "POST",
+    headers: new Headers({"Content-Type": undefined}),
+    ...getCommonHttpRequestProps(),
+    body: userFile,
+  })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.text());
+
 export const generateSecuredPassword = (history) =>
   fetch(`/hr-rest/employees/generate-pass`, {
     method: "GET",
