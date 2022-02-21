@@ -7,6 +7,7 @@ import {useTaskStyles} from "../../../pages/task/taskStyles";
 export const TextInput = ({
   label,
   name,
+  setFieldValue,
   className,
   errors,
   setErrors,
@@ -14,8 +15,10 @@ export const TextInput = ({
 }) => {
   const classes = useTaskStyles();
 
-  const onChange = () => {
+  const onChange = e => {
     deleteError(errors, name) && setErrors(errors);
+
+    setFieldValue(name, isNaN(parseInt(e.target.value)) ? 0 : parseInt(e.target.value));
   };
 
   return (

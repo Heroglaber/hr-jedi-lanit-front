@@ -43,8 +43,10 @@ const ActionSubmit = props => {
           name="taskVariables.businessTrip.budget"
           label="Бюджет командировки в рублях"
           value={values.taskVariables.businessTrip.budget}
+          setFieldValue={setFieldValue}
           errors={errors}
           setErrors={setErrors}
+          className={classes.formInputBudget}
         />
       </div>
       <div className={classes.actionButtons}>

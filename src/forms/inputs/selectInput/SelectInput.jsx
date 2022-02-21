@@ -1,10 +1,11 @@
 import React from "react";
 import {deleteError, findError} from "../utils";
-import {FormControl, Select, InputLabel} from "@material-ui/core";
+import {FormControl, Select, InputLabel, MenuItem} from "@material-ui/core";
 
 export const SelectInput = ({
   label,
   name,
+  value,
   items,
   errors,
   setErrors,
