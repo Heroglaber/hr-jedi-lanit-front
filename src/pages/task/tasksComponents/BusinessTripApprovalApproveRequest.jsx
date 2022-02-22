@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {useTaskStyles} from "../taskStyles";
@@ -7,10 +7,18 @@ import TaskHarness from "../taskHarness/TaskHarness";
 import {SelectInput} from "../../../forms/inputs/selectInput/SelectInput";
 import {formikValidate} from "../../../forms";
 import {required} from "../../../forms/formik/formikValidationRules";
+import * as hotelApi from "../../../api/hotelApi";
+import {useSnackbar} from "../../../utils/snackbar";
 
 const ActionApprove = props => {
-  const {values, handleSubmit, isSubmitting, errors, setErrors} = props;
+  const {values, setFieldValue, handleSubmit, isSubmitting, errors, setErrors, history} = props;
   const classes = useTaskStyles();
+  const {showError} = useSnackbar();
+  const [hotels, setHotels] = useState([]);
+  useEffect(() => {
+    loadAllHotels(setHotels, history, showError);
+  }, [setHotels, history, showError]);
+
   return (
     <>
       <div className={classes.actionContent}>
@@ -29,8 +37,10 @@ const ActionApprove = props => {
         <SelectInput
           label="Отель для заселения"
           name="taskVariables.businessTrip.hotel"
+          setFieldValue={setFieldValue}
           value={values.taskVariables.businessTrip.hotel}
-          items={[]}
+          showValue={getHotelName}
+          items={hotels}
           errors={errors}
           setErrors={setErrors}
         />
@@ -49,6 +59,16 @@ const ActionApprove = props => {
     </>
   );
 };
+
+const loadAllHotels = (setHotels, history, showError) => {
+  hotelApi.getAllHotels(history)
+    .then(hotels => setHotels(hotels))
+    .catch(() => showError("Ошибка при попытке загрузки списка отелей"));
+};
+
+function getHotelName(hotel) {
+  return hotel.name;
+}
 
 const ActionReject = props => {
   const {handleSubmit, isSubmitting} = props;

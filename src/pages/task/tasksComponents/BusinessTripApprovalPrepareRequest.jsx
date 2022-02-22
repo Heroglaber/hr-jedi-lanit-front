@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {useTaskStyles} from "../taskStyles";
@@ -7,10 +7,18 @@ import {formikValidate} from "../../../forms";
 import {notPrecededBy, required} from "../../../forms/formik/formikValidationRules";
 import TaskHarness from "../taskHarness/TaskHarness";
 import {TextInput} from "../../../forms/inputs/textInput/TextInput";
+import {SelectInput} from "../../../forms/inputs/selectInput/SelectInput";
+import {getAllUsersExceptCurrent} from "../../../api/employeeApi";
+import {useSnackbar} from "../../../utils/snackbar";
 
 const ActionSubmit = props => {
-  const {values, setFieldValue, handleSubmit, isSubmitting, errors, setErrors} = props;
+  const {values, setFieldValue, handleSubmit, isSubmitting, errors, setErrors, history} = props;
   const classes = useTaskStyles();
+  const [users, setUsers] = useState([]);
+  const {showError} = useSnackbar();
+  useEffect(() => {
+    loadAllUsers(setUsers, history, showError);
+  }, [setUsers, history, showError]);
   return (
     <>
       <div className={classes.actionContent}>
@@ -48,6 +56,16 @@ const ActionSubmit = props => {
           setErrors={setErrors}
           className={classes.formInputBudget}
         />
+        <SelectInput
+          label="Командируемый сотрудник"
+          name="taskVariables.businessTrip.employee"
+          setFieldValue={setFieldValue}
+          value={values.taskVariables.businessTrip.employee}
+          showValue={getFullName}
+          items={users}
+          errors={errors}
+          setErrors={setErrors}
+        />
       </div>
       <div className={classes.actionButtons}>
         <Button
@@ -62,6 +80,16 @@ const ActionSubmit = props => {
     </>
   );
 };
+
+const loadAllUsers = (setUsers, history, showError) => {
+  getAllUsersExceptCurrent(history)
+    .then(users => setUsers(users))
+    .catch(() => showError("Ошибка при попытке загрузки списка пользователей"));
+};
+
+function getFullName(user) {
+  return user.patronymic ? `${user.firstName} ${user.patronymic} ${user.lastName}` : `${user.firstName} ${user.lastName}`;
+}
 
 const ActionCancel = props => {
   const {handleSubmit, isSubmitting} = props;

@@ -9,6 +9,15 @@ export const getAllUsers = (history) =>
     .then(response => response.json())
     .then(users => users || []);
 
+export const getAllUsersExceptCurrent = (history) =>
+  fetch(`/hr-rest/employees/businessTrip`, {
+    method: "GET",
+    ...getCommonJsonRequestProps(),
+  })
+    .then(response => throwHttpErrors(response, history))
+    .then(response => response.json())
+    .then(users => users || []);
+
 export const updateEmail = (history, email) =>
   fetch(`/hr-rest/employees/current/update-email`, {
     method: "POST",

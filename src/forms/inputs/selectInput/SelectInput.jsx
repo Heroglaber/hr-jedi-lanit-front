@@ -5,14 +5,17 @@ import {FormControl, Select, InputLabel, MenuItem} from "@material-ui/core";
 export const SelectInput = ({
   label,
   name,
+  setFieldValue,
   value,
+  showValue,
   items,
   errors,
   setErrors,
 }) => {
 
-  const onChange = () => {
+  const onChange = (e) => {
     deleteError(errors, name) && setErrors(errors);
+    setFieldValue(name, e.target.value);
   };
 
   return (
@@ -21,11 +24,12 @@ export const SelectInput = ({
       <Select
         name={name}
         value={value}
+        defaultValue = ""
         onChange={onChange}
       >
         {items.map(item => (
-          <MenuItem key={item} value={item}>
-            {item}
+          <MenuItem key={showValue(item)} value={item}>
+            {showValue(item)}
           </MenuItem>
         ))}
       </Select>
