@@ -36,9 +36,9 @@ const ActionApprove = props => {
         </Typography>
         <SelectInput
           label="Отель для заселения"
-          name="taskVariables.businessTrip.hotel"
+          name="taskVariables.hotel"
           setFieldValue={setFieldValue}
-          value={values.taskVariables.businessTrip.hotel}
+          value={values.taskVariables.hotel}
           showValue={getHotelName}
           items={hotels}
           errors={errors}
@@ -97,10 +97,15 @@ const ActionReject = props => {
 
 const validateSubmit = formikValidate({
   taskVariables: {
-    businessTrip: {
-      hotel: [required()],
+    hotel: {
+      name: [required()],
     },
   },
+});
+
+const updateVariables = (variables, action) => ({
+  hotel: variables.hotel,
+  action: action.id,
 });
 
 const businessTripApprovalApproveRequestUiDescription = {
@@ -110,6 +115,7 @@ const businessTripApprovalApproveRequestUiDescription = {
       name: "Согласовать заявку",
       ComponentAction: ActionApprove,
       validate: validateSubmit,
+      updateVariables: updateVariables,
     },
     {
       id: "reject",

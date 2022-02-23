@@ -15,7 +15,9 @@ export const SelectInput = ({
 
   const onChange = (e) => {
     deleteError(errors, name) && setErrors(errors);
-    setFieldValue(name, e.target.value);
+    setFieldValue(name, items.find(item => {
+      return item === e.target.value
+    }));
   };
 
   return (
